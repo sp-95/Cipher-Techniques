@@ -23,7 +23,7 @@ class Transposition:
         self.__key = [0]
 
     def setKey(self, key):
-        pass
+        self.__key = key
 
     def getKey(self):
         return self.__key
@@ -35,10 +35,12 @@ class Transposition:
         return matrix[:, np.argsort(key)]
 
     def encrypt(self, input):
-        pass
+        matrix = self.__generateMatrix(input, sorted(self.__key))
+        return ''.join(matrix.flatten())
 
     def decrypt(self, input):
-        pass
+        matrix = self.__generateMatrix(input, self.__key)
+        return ''.join(matrix.flatten())
 
 
 if __name__ == '__main__':  # if this file is being executed and not imported
