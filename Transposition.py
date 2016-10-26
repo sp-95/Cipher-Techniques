@@ -20,13 +20,19 @@ import numpy as np
 
 class Transposition:
     def __init__(self):
-        self.__columnPermutation = [0]
+        self.__key = [0]
 
     def setKey(self, key):
         pass
 
     def getKey(self):
-        return self.key
+        return self.__key
+
+    def __generateMatrix(self, input, key):
+        keyLength = len(key)
+        input = input + 'X'*((keyLength - len(input)%keyLength) % keyLength)
+        matrix = np.array([list(char) for char in input]).reshape(-1, keyLength)
+        return matrix[:, np.argsort(key)]
 
     def encrypt(self, input):
         pass
@@ -40,6 +46,10 @@ if __name__ == '__main__':  # if this file is being executed and not imported
 
     message = raw_input('Enter your message: ')
     key = map(int, input('Enter the column permutation: ').split())
+
+    # key = [4, 3, 1, 2, 5, 6, 7]
+    # print(myObj.getKey())
+    myObj.setKey(key)
 
     cipher = myObj.encrypt(message)
     print('Cipher Text: {}'.format(cipher))
