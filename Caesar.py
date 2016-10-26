@@ -1,11 +1,30 @@
+"""'
+Caesar Cipher
+=============
+
+Input:
+    1. String of characters consisting of lowercase and uppercase characters
+    2. Shift key for lowercase characters
+    3. Shift key for uppercase characters
+
+Output:
+    Encrypts or decrypts the given string using the keys set
+"""
+
+import __future__
+
+
+__author__ = 'Shashanka Prajapati'
+
+
 class Caesar:
-    # initialize with no keys
     def __init__(self):
+        """initialize with no keys"""
         self.__k1 = 0
         self.__k2 = 0
 
-    # Encrypt a single letter
     def __encryptLetter(self, c):
+        """Encrypt a single letter"""
         if c.islower():
             return chr((ord(c) - ord('a') + self.__k1) % 26 + ord('a'))
         elif c.isupper():
@@ -13,8 +32,8 @@ class Caesar:
         else:
             return c
 
-    # Decrypt a single letter
     def __decryptLetter(self, c):
+        """Decrypt a single letter"""
         if c.islower():
             return chr((ord(c) - ord('a') - self.__k1) % 26 + ord('a'))
         elif c.isupper():
@@ -22,29 +41,30 @@ class Caesar:
         else:
             return c
 
-    # Encrypt the input string
     def encrypt(self, input):
+        """Encrypt the input string"""
         return ''.join([self.__encryptLetter(c) for c in input])
 
-    # Decrypt the input string
     def decrypt(self, input):
+        """Decrypt the input string"""
         return ''.join([self.__decryptLetter(c) for c in input])
 
-    # Set the key value for lowercase letters
     def setLowerKey(self, key):
+        """Set the key value for lowercase letters"""
         self.__k1 = key
 
-    # Get the key value for lowercase letters
     def getLowerKey(self, key):
+        """Get the key value for lowercase letters"""
         return self.__k1
 
-    # Set the key value for uppercase letters
     def setUpperKey(self, key):
+        """Set the key value for uppercase letters"""
         self.__k2 = key
 
-    # Get the key value for uppercase letters
     def getUpperKey(self, key):
+        """Get the key value for uppercase letters"""
         return self.__k2
+
 
 if __name__ == '__main__':  # if this file is being executed and not imported
     message = raw_input("Enter your message: ")
