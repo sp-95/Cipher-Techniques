@@ -28,23 +28,22 @@ class Transposition:
         self.__decryptionKey = np.argsort(self.__encryptionKey)
 
     def getKey(self):
-        return list(self.__encryptionKey)
-
-    def __generateMatrix(self, input, key):
-        keyLength = len(key)
-        print(key)
-        input = input + 'X'*((keyLength - len(input)%keyLength) % keyLength)
-        matrix = np.array([list(char) for char in input]).reshape(-1, keyLength)
-        return matrix[:, np.argsort(key)]
+        return list(self.__encryptionKey) 
 
     def encrypt(self, input):
-        matrix = self.__generateMatrix(input, self.__encryptionKey)
-        return ''.join(matrix.T.flatten())
+        keyLength = len(self.__encryptionKey)
+        input = input + 'X'*((keyLength - len(input)%keyLength) % keyLength)    # Padding to fill the matrix
+        matrix = self.__toList(input).reshape(-1, keyLength)
+        cipher = matrix[:, np.argsort(self.__encryptionKey)]
+        return ''.join(cipher.T.flatten())
 
     def decrypt(self, input):
-        matrix = self.__generateMatrix(input, self.__decryptionKey)
-        return ''.join(matrix.T.flatten())
+        matrix = self.__toList(input).reshape(-1, len(input)//len(self.__decryptionKey)).T
+        plain = matrix[:, np.argsort(self.__decryptionKey)]
+        return ''.join(plain.flatten())
 
+    def __toList(self, string):
+        return np.array([list(char) for char in string])
 
 if __name__ == '__main__':  # if this file is being executed and not imported
     myObj = Transposition()

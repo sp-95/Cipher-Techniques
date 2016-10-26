@@ -81,29 +81,21 @@ class Hill:
         input = input + 'X'*((self.__size - len(input) % self.__size) % self.__size)
         return re.findall('.{{{}}}'.format(self.__size), input)
 
-    def __generateMatrix(self, segment):
-        """Generate matrix for each segment"""
-        return np.array([ord(x) - ord('A') for x in segment]).reshape(self.__size, 1)
-
-    def __encryptSegment(self, segment):
-        """Encrypt each segment"""
-        cipher = np.mod(np.dot(self.getKey(), self.__generateMatrix(segment)), 26)
-        return ''.join([chr(x + ord('A')) for x in cipher])
-
-    def __decryptSegment(self, segment):
-        """Decrypt each segment"""
-        plain = np.mod(np.dot(self.__getKeyInv(), self.__generateMatrix(segment)), 26)
-        return ''.join([chr(x + ord('A')) for x in plain])
+    def __processSegment(self, segment, key):
+        """Encrypt or decrypt each segment"""
+        segmentMatrix = np.array([ord(x) - ord('A') for x in segment]).reshape(self.__size, 1)
+        newSegment = np.mod(np.dot(key, segmentMatrix), 26)
+        return ''.join([chr(x + ord('A')) for x in newSegment])
 
     def encrypt(self, input):
         """Encryption"""
         segments = self.__getSegments(input)
-        return ''.join([self.__encryptSegment(segment) for segment in segments])
+        return ''.join([self.__processSegment(segment, self.getKey()) for segment in segments])
 
     def decrypt(self, input):
         """Decryption"""
         segments = self.__getSegments(input)
-        return ''.join([self.__decryptSegment(segment) for segment in segments])
+        return ''.join([self.__processSegment(segment, self.__getKeyInv()) for segment in segments])
 
     def __isSquare(self, matrix):
         """Check if the matrix is a square matrix"""
