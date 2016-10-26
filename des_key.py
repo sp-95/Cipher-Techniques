@@ -15,6 +15,9 @@ import __future__
 __author__ = 'Shashanka Prajapati'
 
 
+import numpy as np
+
+
 class DESKey:
     def __init__(self):
         self.__key = '0000111100010101011100011100100101000111110110011110100001011001'
@@ -24,6 +27,9 @@ class DESKey:
 
     def getInitialKey(self):
         return self.__key
+
+    def __toMatrix(self, string):
+        return np.array([c for c in string]).reshape(8, 8)
 
 
 if __name__ == '__main__':  # if this file is being executed and not imported
