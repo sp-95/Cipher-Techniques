@@ -20,39 +20,47 @@ import numpy as np
 
 class Transposition:
     def __init__(self):
-        self.__encryptionKey = [0]
-        self.__decryptionKey = [0]
+        """Initialize the column permutation"""
+        self.__key = [0]
 
     def setKey(self, key):
-        self.__encryptionKey = np.array(key)
-        self.__decryptionKey = np.argsort(self.__encryptionKey)
+        """Set the key"""
+        self.__key = np.array(key)
 
     def getKey(self):
-        return list(self.__encryptionKey) 
+        """Get the key"""
+        return list(self.__key) 
 
     def encrypt(self, input):
-        keyLength = len(self.__encryptionKey)
+        """Encryption"""
+        keyLength = len(self.__key)
         input = input + 'X'*((keyLength - len(input)%keyLength) % keyLength)    # Padding to fill the matrix
         matrix = self.__toList(input).reshape(-1, keyLength)
-        cipher = matrix[:, np.argsort(self.__encryptionKey)]
+        cipher = matrix[:, np.argsort(self.__key)]
         return ''.join(cipher.T.flatten())
 
     def decrypt(self, input):
-        matrix = self.__toList(input).reshape(-1, len(input)//len(self.__decryptionKey)).T
-        plain = matrix[:, np.argsort(self.__decryptionKey)]
+        """Decryption"""
+        matrix = self.__toList(input).reshape(-1, len(input)//len(self.__key)).T
+        plain = matrix[:, np.argsort(np.argsort(self.__key))]
         return ''.join(plain.flatten())
 
     def __toList(self, string):
+        """Convert a string to list of characters"""
         return np.array([list(char) for char in string])
 
 if __name__ == '__main__':  # if this file is being executed and not imported
     myObj = Transposition()
 
     message = raw_input('Enter your message: ')
-    # key = map(int, raw_input('Enter the column permutation: ').split())
+
+    # print('Enter the column permutation: ')
+    # key = map(int, raw_input().split())
+    # myObj.setKey(key)
 
     key = [4, 3, 1, 2, 5, 6, 7]
     myObj.setKey(key)
+    print('Column Permutation:')
     print(myObj.getKey())
 
     cipher = myObj.encrypt(message)
