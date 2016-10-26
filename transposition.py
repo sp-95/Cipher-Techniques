@@ -1,6 +1,6 @@
-"""'
+"""
 Transposition Cipher
-=============
+====================
 
 Input:
     Input string and column permutation as key
@@ -48,6 +48,7 @@ class Transposition:
     def __toList(self, string):
         """Convert a string to list of characters"""
         return np.array([list(char) for char in string])
+
 
 if __name__ == '__main__':  # if this file is being executed and not imported
     myObj = Transposition()

@@ -1,6 +1,6 @@
-"""'
+"""
 Playfair Cipher
-=============
+===============
 
 Input:
     Input string and a key string

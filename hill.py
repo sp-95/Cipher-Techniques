@@ -1,6 +1,6 @@
-"""'
+"""
 Hill Cipher
-=============
+===========
 
 Input:
     1. Input string
@@ -132,7 +132,7 @@ if __name__ == '__main__':  # if this file is being executed and not imported
     myObj.setKey([[0, 11, 15], [7, 0, 1], [4, 19, 0]])
     print('Key Matrix:')
     for row in myObj.getKey():
-        print(row)
+        print(list(row))
 
     cipher = myObj.encrypt(message)
     print('Cipher Text: {}'.format(cipher))
