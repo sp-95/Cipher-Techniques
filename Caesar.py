@@ -8,7 +8,7 @@ Input:
     3. Shift key for uppercase characters
 
 Output:
-    Encrypts or decrypts the given string using the keys set
+    Encrypted and decrypted strings using Caesar Cipher with the given shift keys
 """
 
 import __future__

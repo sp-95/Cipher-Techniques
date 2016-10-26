@@ -7,8 +7,8 @@ Input:
 
 Output:
     1. Key matrix based on the key string
-    2. Encrypted string
-    3. Decrypted string
+    2. Encrypted string using Playfair Cipher with key as the key string
+    3. Decrypted string usiing Playfair Cipher with key as the key string
 """
 
 import __future__
