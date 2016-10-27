@@ -27,7 +27,8 @@ class DESKeyError(Exception):
 
 class DESKey:
     def __init__(self):
-        """Initialize key and the permutation choices"""
+        """Initialize key"""
+        self.__plainText = '0000001001000110100010101100111011101100101010000110010000100000'
         self.__key = '011110000011001111000011001000001101101001110000'
 
     def setKey(self, key):
@@ -42,9 +43,29 @@ class DESKey:
         """Get the 48-bit key"""
         return self.__key
 
+    def getPlainText(self):
+        """Get the 64-bit plain text"""
+        return self.__plainText
+
+    def encrypt(self, input=None):
+        if re.search('[^01]', input):
+            raise DESKeyError('PlainText should contain only bits(0\'s and 1\'s)')
+        if len(input) != 64:
+            raise DESKeyError('Only 64-bit PlainTexts are accepted')
+        if input not None:
+            self.__plainText = input
+
 
 if __name__ == '__main__':  # if this file is being executed and not imported
     myObj = DESKey()
 
     # key = raw_input('Enter the 48-bit key: ')
     # myObj.setKey(key)
+
+    print('Key: {}'.format(myObj.getKey()))
+
+    # plain = raw_input('Enter the 64-bit PlainText: ')
+    # myObj.encrypt(plain)
+
+    print('Key: {}'.format(myObj.getPlainText()))
+    myObj.encrypt()
