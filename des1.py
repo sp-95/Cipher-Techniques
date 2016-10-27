@@ -63,7 +63,7 @@ class DES:
 
     def __exor(self, input):
         """XOR the expanded bits with the key"""
-        return str(bin(int(input, 2)^int(self.__key, 2)))[2:]
+        return bin(int(input, 2)^int(self.__key, 2))[2:]
 
     def encrypt(self, input=None):
         """Get the input for S-box"""

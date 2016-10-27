@@ -29,7 +29,7 @@ class DES:
     def __init__(self):
         self.__input = '111001111010010001100011001111110101101000101110'
         self.__l = '01011010000000000101101000000000'
-        self.__sBox = [
+        self.__sBox = np.array([
             [
                 [14, 4, 13, 1, 2, 15, 11, 8, 3, 10, 6, 12, 5, 9, 0, 7],
                 [0, 15, 7, 4, 14, 2, 13, 1, 10, 6, 12, 11, 9, 5, 3, 8],
@@ -78,7 +78,7 @@ class DES:
                 [7, 11, 4, 1, 9, 12, 14, 2, 0, 6, 10, 13, 15, 3, 5, 8],
                 [2, 1, 14, 7, 4, 10, 8, 13, 15, 12, 9, 0, 3, 5, 6, 11],
             ],
-        ]
+        ])
         self.__p = [
             15, 6, 19, 20, 28, 12, 27, 16,
             0, 14, 22, 25, 4, 17, 30, 9,
@@ -93,11 +93,28 @@ class DES:
             raise DESError('Only 32-bit inputs are accepted')
         self.__l = input
 
+    def __compress(self, input):
+        result = ''
+        for i, row in enumerate(self.__toMatrix(input)):
+            x, y = self.__getcoordinates(row)
+            result += bin(self.__sBox[i,x,y])[2:]
+        return result
+
     def encrypt(self, input=None):
-        if re.search('[^01]', input):
-            raise DESError('Input to S-box should contain only bits(0\'s and 1\'s)')
-        if len(input) != 48:
-            raise DESError('Only 48-bit inputs are accepted')
+        if input is not None:
+            if re.search('[^01]', input):
+                raise DESError('Input to S-box should contain only bits(0\'s and 1\'s)')
+            if len(input) != 48:
+                raise DESError('Only 48-bit inputs are accepted')
+            return self.__compress(input)
+        else:
+            return self.__compress(self.__input)
+
+    def __toMatrix(self, input):
+        return np.array([c for c in input]).reshape(8,6)
+
+    def __getcoordinates(self, row):
+        return int(''.join(row[0]+row[-1]), 2), int(''.join(row[1:-1]), 2)
 
 
 if __name__ == '__main__':  # if this file is being executed and not imported
@@ -109,4 +126,4 @@ if __name__ == '__main__':  # if this file is being executed and not imported
 
     # myObj.encrypt(input)
 
-    myObj.encrypt()
+    print('Result: {}'.format(myObj.encrypt()))
