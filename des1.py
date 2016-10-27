@@ -27,8 +27,8 @@ class DESKeyError(Exception):
 
 class DESKey:
     def __init__(self):
-        """Initialize key"""
-        self.__plainText = '0000001001000110100010101100111011101100101010000110010000100000'
+        """Initialize plain text, key and the expansion permutation"""
+        self.__plainText = '0101101000000000010110100000000000111100111100000011110000001111'
         self.__key = '011110000011001111000011001000001101101001110000'
         self.__e = [
             31, 0, 1, 2, 3, 4,
@@ -58,12 +58,15 @@ class DESKey:
         return self.__plainText
 
     def __expand(self, input):
+        """Expand the 32-bit R to 48-bits"""
         return ''.join(np.array([c for c in input]).take(self.__e))
 
     def __exor(self, input):
+        """XOR the expanded bits with the key"""
         return str(bin(int(input, 2)^int(self.__key, 2)))[2:]
 
     def encrypt(self, input=None):
+        """Get the input for S-box"""
         if input is not None:
             if re.search('[^01]', input):
                 raise DESKeyError('PlainText should contain only bits(0\'s and 1\'s)')
@@ -85,7 +88,7 @@ if __name__ == '__main__':  # if this file is being executed and not imported
     print('Key: {}'.format(myObj.getKey()))
 
     # plain = raw_input('Enter the 64-bit PlainText: ')
-    # myObj.encrypt(plain)
+    # print('Input for S-box: {}'.format(myObj.encrypt(plain)))
 
     print('Plain Text: {}'.format(myObj.getPlainText()))
     print('Input for S-box: {}'.format(myObj.encrypt()))
