@@ -19,13 +19,13 @@ import re
 import numpy as np
 
 
-class DESKeyError(Exception):
-    """Exception class for DES Key Algorithm"""
+class DESError(Exception):
+    """Exception class for DES Algorithm"""
     def __init__(self,*args,**kwargs):
         Exception.__init__(self,*args,**kwargs)
 
 
-class DESKey:
+class DES:
     def __init__(self):
         """Initialize plain text, key and the expansion permutation"""
         self.__plainText = '0101101000000000010110100000000000111100111100000011110000001111'
@@ -44,9 +44,9 @@ class DESKey:
     def setKey(self, key):
         """Set the 48-bit key"""
         if re.search('[^01]', key):
-            raise DESKeyError('Key should contain only bits(0\'s and 1\'s)')
+            raise DESError('Key should contain only bits(0\'s and 1\'s)')
         if len(key) != 48:
-            raise DESKeyError('Only 48-bit keys are accepted')
+            raise DESError('Only 48-bit keys are accepted')
         self.__key = key
 
     def getKey(self):
@@ -69,9 +69,9 @@ class DESKey:
         """Get the input for S-box"""
         if input is not None:
             if re.search('[^01]', input):
-                raise DESKeyError('PlainText should contain only bits(0\'s and 1\'s)')
+                raise DESError('PlainText should contain only bits(0\'s and 1\'s)')
             if len(input) != 64:
-                raise DESKeyError('Only 64-bit PlainTexts are accepted')
+                raise DESError('Only 64-bit PlainTexts are accepted')
             self.__plainText = input
             return self.__exor(self.__expand(input[32:]))
         else:
@@ -80,7 +80,7 @@ class DESKey:
 
 
 if __name__ == '__main__':  # if this file is being executed and not imported
-    myObj = DESKey()
+    myObj = DES()
 
     # key = raw_input('Enter the 48-bit key: ')
     # myObj.setKey(key)
