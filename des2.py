@@ -80,7 +80,7 @@ class DES:
             ],
         ])
         self.__p = [
-            15, 6, 19, 20, 28, 12, 27, 16,
+            15, 6, 19, 20, 28, 11, 27, 16,
             0, 14, 22, 25, 4, 17, 30, 9,
             1, 7, 23, 13, 31, 26, 2, 8,
             18, 12, 29, 5, 21, 10, 3, 24,
@@ -88,10 +88,16 @@ class DES:
 
     def setLValue(self, input):
         if re.search('[^01]', input):
-            raise DESError('Input to S-box should contain only bits(0\'s and 1\'s)')
+            raise DESError('The L-value should contain only bits(0\'s and 1\'s)')
         if len(input) != 32:
             raise DESError('Only 32-bit inputs are accepted')
         self.__l = input
+
+    def getLValue(self):
+        return self.__l
+
+    def getInput(self):
+        return self.__input
 
     def __compress(self, input):
         result = ''
@@ -103,15 +109,19 @@ class DES:
     def __permute(self, input):
         return ''.join(self.__toMatrix(input).take(self.__p))
 
+    def __exor(self, input):
+        """XOR the permuted bits with the L-value"""
+        return format(int(input, 2)^int(self.__l, 2), '032b')
+
     def encrypt(self, input=None):
         if input is not None:
             if re.search('[^01]', input):
                 raise DESError('Input to S-box should contain only bits(0\'s and 1\'s)')
             if len(input) != 48:
                 raise DESError('Only 48-bit inputs are accepted')
-            return self.__permute(self.__compress(input))
+            return self.__exor(self.__permute(self.__compress(input)))
         else:
-            return self.__permute(self.__compress(self.__input))
+            return self.__exor(self.__permute(self.__compress(self.__input)))
 
     def __toMatrix(self, input):
         return np.array([c for c in input])
@@ -123,10 +133,12 @@ class DES:
 if __name__ == '__main__':  # if this file is being executed and not imported
     myObj = DES()
 
-    # input = raw_input('Enter 48-bit input for S-box: ')
-    # l = raw_input('Enter the 32-bit l-value: ')
+    # l = raw_input('Enter the 32-bit L-value: ')
     # myObj.setLValue(l)
 
-    # myObj.encrypt(input)
+    # input = raw_input('Enter 48-bit input for S-box: ')
+    # print('Result: {}'.format(myObj.encrypt(input)))
 
+    print('L-value: {}'.format(myObj.getLValue()))
+    print('48-bit input to S-box: {}'.format(myObj.getInput()))
     print('Result: {}'.format(myObj.encrypt()))
