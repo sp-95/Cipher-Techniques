@@ -71,7 +71,7 @@ class DESKey:
         return ''.join(keyMatrix.take(self.__pc2).flatten())
     
     def __leftShift(self, matrix, shift):
-        """Shift the elemetns of matrix to the left"""
+        """Shift the elements of matrix to the left"""
         indices = range(shift, matrix.size) + range(shift)
         return matrix.flatten().take(indices).reshape(matrix.shape)
 

@@ -10,5 +10,5 @@
 4. Write a program to perform encryption and decryption using transposition technique with column permutation given as key.
 5. Encrypt a given text file using mono-alphabetic cipher and store the cipher text in a file. Cryptanalize the cipher text obtained using frequency analysis.
 6. Write a program to generate and print 48-bit keys for all sixteen rounds of DES algorithm, given a 64-bit initial key.
-7. Given 64-bit output of (i-1)th round of DES, 56-bit (i-1)th round key Ki and E table, write a program to print the 48-bit input for S-box in the ith round of DES.
+7. Given 64-bit output of (i-1)th round of DES, 48-bit (i-1)th round key Ki and E table, write a program to print the 48-bit input for S-box in the ith round of DES.
 8. Given 48-bit input to S-box, permutation table P and 32-bit input Li-1, write program to print the 32-bit output Ri of ith round of DES algorithm.
