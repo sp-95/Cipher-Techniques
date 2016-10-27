@@ -95,10 +95,13 @@ class DES:
 
     def __compress(self, input):
         result = ''
-        for i, row in enumerate(self.__toMatrix(input)):
+        for i, row in enumerate(self.__toMatrix(input).reshape(8,6)):
             x, y = self.__getcoordinates(row)
-            result += bin(self.__sBox[i,x,y])[2:]
+            result += format(self.__sBox[i,x,y], '04b')
         return result
+
+    def __permute(self, input):
+        return ''.join(self.__toMatrix(input).take(self.__p))
 
     def encrypt(self, input=None):
         if input is not None:
@@ -106,12 +109,12 @@ class DES:
                 raise DESError('Input to S-box should contain only bits(0\'s and 1\'s)')
             if len(input) != 48:
                 raise DESError('Only 48-bit inputs are accepted')
-            return self.__compress(input)
+            return self.__permute(self.__compress(input))
         else:
-            return self.__compress(self.__input)
+            return self.__permute(self.__compress(self.__input))
 
     def __toMatrix(self, input):
-        return np.array([c for c in input]).reshape(8,6)
+        return np.array([c for c in input])
 
     def __getcoordinates(self, row):
         return int(''.join(row[0]+row[-1]), 2), int(''.join(row[1:-1]), 2)
