@@ -3,10 +3,10 @@ DES Part 2
 ==========
 
 Input:
-, 48-bit input to S-box and 32-bit L
+    48-bit input to S-box and 32-bit L-value
 
 Output:
-, 32-bit R
+    32-bit R-value
 """
 
 import __future__
@@ -27,6 +27,7 @@ class DESError(Exception):
 
 class DES:
     def __init__(self):
+        """Initialize the input to S-box, L-value, S-boxes and Permutation Function"""
         self.__input = '111001111010010001100011001111110101101000101110'
         self.__l = '01011010000000000101101000000000'
         self.__sBox = np.array([
@@ -87,6 +88,7 @@ class DES:
             ]
 
     def setLValue(self, input):
+        """Set the L-value"""
         if re.search('[^01]', input):
             raise DESError('The L-value should contain only bits(0\'s and 1\'s)')
         if len(input) != 32:
@@ -94,26 +96,31 @@ class DES:
         self.__l = input
 
     def getLValue(self):
+        """Get the L-value"""
         return self.__l
 
     def getInput(self):
+        """Get the input to S-box"""
         return self.__input
 
     def __compress(self, input):
+        """Compress the 48-bit input using S-boxes"""
         result = ''
-        for i, row in enumerate(self.__toMatrix(input).reshape(8,6)):
+        for i, row in enumerate(np.array([c for c in input]).reshape(8,6)):
             x, y = self.__getcoordinates(row)
             result += format(self.__sBox[i,x,y], '04b')
         return result
 
     def __permute(self, input):
-        return ''.join(self.__toMatrix(input).take(self.__p))
+        """Permutation Function"""
+        return ''.join(np.array([c for c in input]).take(self.__p))
 
     def __exor(self, input):
         """XOR the permuted bits with the L-value"""
         return format(int(input, 2)^int(self.__l, 2), '032b')
 
     def encrypt(self, input=None):
+        """Encryption"""
         if input is not None:
             if re.search('[^01]', input):
                 raise DESError('Input to S-box should contain only bits(0\'s and 1\'s)')
@@ -123,10 +130,8 @@ class DES:
         else:
             return self.__exor(self.__permute(self.__compress(self.__input)))
 
-    def __toMatrix(self, input):
-        return np.array([c for c in input])
-
     def __getcoordinates(self, row):
+        """Get coordinates to the S-boxes"""
         return int(''.join(row[0]+row[-1]), 2), int(''.join(row[1:-1]), 2)
 
 
