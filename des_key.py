@@ -40,12 +40,12 @@ class DESKey:
             [20, 12, 4, 27, 19, 11, 3],
             ]
         self.__pc2 = [
-            [13, 16, 10, 23, 0, 4, 2, 27],
-            [14, 5, 20, 9, 22, 18, 11, 3],
-            [25, 7, 15, 6, 26, 19, 12, 1],
-            [40, 51, 30, 36, 46, 54, 29, 39],
-            [50, 44, 32, 47, 43, 48, 38, 55],
-            [33, 52, 45, 41, 49, 35, 28, 31],
+            13, 16, 10, 23, 0, 4, 2, 27,
+            14, 5, 20, 9, 22, 18, 11, 3,
+            25, 7, 15, 6, 26, 19, 12, 1,
+            40, 51, 30, 36, 46, 54, 29, 39,
+            50, 44, 32, 47, 43, 48, 38, 55,
+            33, 52, 45, 41, 49, 35, 28, 31,
             ]
 
     def setInitialKey(self, key):
@@ -65,15 +65,15 @@ class DESKey:
         keyMatrix = np.array([c for c in self.__key]).take(self.__pc1)
         for i in range(1, round+1):
             if i in [1, 2, 9, 16]:
-                keyMatrix = np.vstack((self.__leftShift(keyMatrix[:4], 1), self.__leftShift(keyMatrix[4:], 1)))
+                keyMatrix = np.append(self.__leftShift(keyMatrix[:4], 1), self.__leftShift(keyMatrix[4:], 1))
             else:
-                keyMatrix = np.vstack((self.__leftShift(keyMatrix[:4], 2), self.__leftShift(keyMatrix[4:], 2)))
-        return ''.join(keyMatrix.take(self.__pc2).flatten())
+                keyMatrix = np.append(self.__leftShift(keyMatrix[:4], 2), self.__leftShift(keyMatrix[4:], 2))
+        return ''.join(keyMatrix.take(self.__pc2))
     
     def __leftShift(self, matrix, shift):
         """Shift the elements of matrix to the left"""
         indices = range(shift, matrix.size) + range(shift)
-        return matrix.flatten().take(indices).reshape(matrix.shape)
+        return matrix.take(indices).reshape(matrix.shape)
 
 
 if __name__ == '__main__':  # if this file is being executed and not imported
