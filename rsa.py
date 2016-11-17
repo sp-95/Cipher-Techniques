@@ -55,7 +55,7 @@ def main():
     print('PlainText: {}'.format(plaintext))
 
     cipher = encrypt(private, plaintext)
-    print('Cipher: {}'.format(''.join(map(str, cipher))))
+    print('Cipher: {}'.format(' '.join(map(str, cipher))))
 
     print('Decrypted Text: {}'.format(decrypt(public, cipher)))
 
