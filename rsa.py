@@ -29,7 +29,9 @@ def genKey(p, q):
     print('phi: {}'.format(phi))
 
     e = random.choice([i for i in range(1,phi) if fractions.gcd(i, phi) == 1])
+    print('e: {}'.format(e))
     d = modinv(e, phi)
+    print('d: {}'.format(d))
     
     return ((e, n), (d, n))
 
