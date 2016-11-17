@@ -1,3 +1,4 @@
+import socket
 import random
 import fractions
 
@@ -43,6 +44,13 @@ def decrypt(public, cipher):
     return ''.join(plain)
 
 def main():
+    s = socket.socket()
+    host = s.gethostname()
+    port = 3000
+
+    s.connect((host, port))
+    s.close()
+
     p, q = genPrime()
     print('p: {}'.format(p))
     print('q: {}'.format(q))
@@ -58,6 +66,7 @@ def main():
     print('Cipher: {}'.format(''.join(map(str, cipher))))
 
     print('Decrypted Text: {}'.format(decrypt(public, cipher)))
+
 
 if __name__ == '__main__':
     main()
