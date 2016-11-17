@@ -1,6 +1,7 @@
 import socket
 import random
 import fractions
+import ast
 
 
 def egcd(a, b):
@@ -34,10 +35,6 @@ def genKey(p, q):
     
     return ((e, n), (d, n))
 
-def encrypt(private, plaintext):
-    key, n = private
-    return [pow(ord(char), key, n) for char in plaintext]
-
 def decrypt(public, cipher):
     key, n = public
     plain = [chr(pow(char, key, n)) for char in cipher]
@@ -45,11 +42,10 @@ def decrypt(public, cipher):
 
 def main():
     s = socket.socket()
-    host = s.gethostname()
+    host = socket.gethostname()
     port = 3000
 
     s.connect((host, port))
-    s.close()
 
     p, q = genPrime()
     print('p: {}'.format(p))
@@ -58,14 +54,18 @@ def main():
     public, private = genKey(p, q)
     print('PU: {}'.format(public))
     print('PR: {}'.format(private))
+    s.send(str(public))
+    s.recv(1024)
 
     plaintext = 'How are you?'
     print('PlainText: {}'.format(plaintext))
+    s.send(plaintext)
 
-    cipher = encrypt(private, plaintext)
-    print('Cipher: {}'.format(''.join(map(str, cipher))))
-
+    cipher = ast.literal_eval(s.recv(1024))
+    print('Cipher: {}'.format(' '.join(map(str, cipher))))
     print('Decrypted Text: {}'.format(decrypt(public, cipher)))
+
+    s.close()
 
 
 if __name__ == '__main__':
