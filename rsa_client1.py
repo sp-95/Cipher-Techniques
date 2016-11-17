@@ -63,7 +63,7 @@ def main():
 
     cipher = ast.literal_eval(s.recv(1024))
     print('Cipher: {}'.format(' '.join(map(str, cipher))))
-    print('Decrypted Text: {}'.format(decrypt(public, cipher)))
+    print('Decrypted Text: {}'.format(decrypt(private, cipher)))
 
     s.close()
 
