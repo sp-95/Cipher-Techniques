@@ -33,12 +33,12 @@ def genKey(p, q):
     
     return ((e, n), (d, n))
 
-def encrypt(private, plaintext):
-    key, n = private
+def encrypt(public, plaintext):
+    key, n = public
     return [pow(ord(char), key, n) for char in plaintext]
 
-def decrypt(public, cipher):
-    key, n = public
+def decrypt(private, cipher):
+    key, n = private
     plain = [chr(pow(char, key, n)) for char in cipher]
     return ''.join(plain)
 
@@ -54,10 +54,10 @@ def main():
     plaintext = 'How are you?'
     print('PlainText: {}'.format(plaintext))
 
-    cipher = encrypt(private, plaintext)
+    cipher = encrypt(public, plaintext)
     print('Cipher: {}'.format(' '.join(map(str, cipher))))
 
-    print('Decrypted Text: {}'.format(decrypt(public, cipher)))
+    print('Decrypted Text: {}'.format(decrypt(private, cipher)))
 
 if __name__ == '__main__':
     main()
