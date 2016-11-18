@@ -15,9 +15,11 @@ def main():
 
     s.listen(5)
     c, addr = s.accept()
+
     public = ast.literal_eval(c.recv(1024))
     print('PU: {}'.format(public))
     c.send('ACK')
+
     plaintext = c.recv(1024)
     print('PlainText: {}'.format(plaintext))
 
@@ -25,6 +27,7 @@ def main():
     print('Cipher: {}'.format(' '.join(map(str, cipher))))
     c.send(str(cipher))
 
+    c.close()
     s.close()
 
 
