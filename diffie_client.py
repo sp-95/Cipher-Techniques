@@ -14,14 +14,15 @@ def main():
     port = 3000
 
     s.connect((host, port))
+
     q = genPrime()
     print('q: {}'.format(q))
     alpha = random.randrange(1000)
     print('alpha: {}'.format(alpha))
+    s.send('{} {}'.format(q, alpha))
+
     xa = random.randrange(1000)
     print('xa: {}'.format(xa))
-
-    s.send('{} {}'.format(q, alpha))
     ya = pow(alpha, xa, q)
     print('ya: {}'.format(ya))
 
@@ -31,6 +32,7 @@ def main():
     
     k = pow(yb, xa, q)
     print('k: {}'.format(k))
+    
     s.close()
 
 
