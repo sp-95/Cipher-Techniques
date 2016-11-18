@@ -41,8 +41,7 @@ def encrypt(public, plaintext):
 
 def decrypt(private, cipher):
     key, n = private
-    plain = [chr(pow(char, key, n)) for char in cipher]
-    return ''.join(plain)
+    return ''.join([chr(pow(char, key, n)) for char in cipher])
 
 def main():
     p, q = genPrime()

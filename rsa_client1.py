@@ -37,8 +37,7 @@ def genKey(p, q):
 
 def decrypt(public, cipher):
     key, n = public
-    plain = [chr(pow(char, key, n)) for char in cipher]
-    return ''.join(plain)
+    return ''.join([chr(pow(char, key, n)) for char in cipher])
 
 def main():
     s = socket.socket()
