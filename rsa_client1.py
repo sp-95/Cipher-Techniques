@@ -30,7 +30,7 @@ def genKey(p, q):
     phi = (p - 1)*(q - 1)
     print('phi: {}'.format(phi))
 
-    e = random.choice([i for i in range(1,phi) if fractions.gcd(i, phi) == 1])
+    e = random.choice([i for i in range(1,phi) if fractions.gcd(i, phi) == 1 and i != modinv(i, phi)])
     d = modinv(e, phi)
     
     return ((e, n), (d, n))
