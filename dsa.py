@@ -1,11 +1,5 @@
 import random
 from math import sqrt
-from sys import exit
-from sys import stdin
-
-
-N = 1024
-L = 160
 
 
 def isPrime(n):
